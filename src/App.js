@@ -2,6 +2,7 @@ import { nanoid } from "nanoid"
 import React from "react"
 import Die from "./components/Die"
 import Confetti from 'react-confetti'
+import Header from "./components/Header"
 
 
 
@@ -9,6 +10,7 @@ export default function App() {
 
     const [tenzies, setTenzies] = React.useState(false)
     const [diceArray, setDiceArray] = React.useState(allNewDice())
+    const [rollCount, setRollCount] = React.useState(0)
 
     React.useEffect(() => {
         const allHeld = diceArray.every(die => die.isHeld)
@@ -41,6 +43,7 @@ export default function App() {
                 die :
                 generateNewDie()
         }))
+        setRollCount(prevRollCount => prevRollCount+1)
     }
 
     function newGame() {
@@ -68,6 +71,7 @@ export default function App() {
 
     return (
         <main>
+            <Header rollCount={rollCount}/>
             {tenzies && <Confetti/>}
             <h1 className="title">Tenzies</h1>
             <p className="instructions">Roll until all dice are the same. 
@@ -78,7 +82,7 @@ export default function App() {
             <button 
                 className="game-button" 
                 onClick = {tenzies ? newGame : roll}
-            > {tenzies ? "New Game" : "Roll"} 
+            > {tenzies ? "New Game" : `Roll`} 
             </button>
         </main>
     )
