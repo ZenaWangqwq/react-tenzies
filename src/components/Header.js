@@ -3,11 +3,10 @@ import React from "react"
 export default function Header(props) {
     const [minutes, setMinutes] = React.useState(0);
     const [seconds, setSeconds] = React.useState(0);
-    const [bestTime, setBestTime] = React.useState(localStorage.getItem("bestTime")||"Not Recorded Yet")
+    const [bestTime, setBestTime] = React.useState(() => JSON.parse(localStorage.getItem("bestTime"))||"Not Recorded Yet")
 
     React.useEffect(() => {
             if (props.tenzies === true) {
-                getBestTime()
                 return;
             }
 
@@ -25,7 +24,7 @@ export default function Header(props) {
 
     React.useEffect(() => {
         if (props.tenzies === true) {
-            getBestTime()
+            calculateBestTime()
         }else{
             setSeconds(0)
             setMinutes(0)
@@ -33,48 +32,53 @@ export default function Header(props) {
     }, [props.tenzies])
 
     React.useEffect(() => {
-        localStorage.setItem("bestTime", bestTime)
+        localStorage.setItem("bestTime", JSON.stringify(bestTime))
     },[bestTime])
 
     function showTime(min, sec) {
         let showMinutes = min
         let showSeconds = sec%60
-        if (minutes < 10){
+        if (showMinutes < 10){
             showMinutes = "0" + showMinutes
         }
-        if ((seconds%60) < 10){
+        if (showSeconds < 10){
             showSeconds = "0" + showSeconds
         }
         return showMinutes + " : " + showSeconds
     }
-    
-    function getBestTime() {
+
+    function calculateBestTime() {
         if(bestTime==="Not Recorded Yet"){
-            setBestTime(JSON.stringify([minutes,seconds%60]))
+            setBestTime([minutes,seconds])
+            console.log("test")
             return
         }
 
-        let bestTimeArray = JSON.parse(bestTime)
-        
-        const bestTimeMinutes = bestTimeArray[0]
-        const bestTimeSeconds = bestTimeArray[1]
-
-        if (bestTimeMinutes > minutes) {
-            setBestTime(JSON.stringify([minutes,seconds%60]))
+        if (bestTime[0] > minutes) {
+            setBestTime([minutes,seconds])
             return
         }
-        else if (bestTimeMinutes === minutes) {
-            if (bestTimeSeconds >= seconds) {
-                setBestTime(JSON.stringify([minutes,seconds%60]))
+        else if (bestTime[0] === minutes) {
+            if (bestTime[1] >= seconds) {
+                setBestTime([minutes,seconds])
             }
         }
     }
 
+    function showBestTimeString() {
+        if(bestTime==="Not Recorded Yet"){
+            return bestTime
+        }
+        else {
+            return showTime(bestTime[0], bestTime[1])
+        }
+    }
+    
     return (
         <header>
             <h4>Rolls: <font color="blue" size="3">{props.rollCount}</font></h4>
             <h4>Time: <font color="red" size="3">{showTime(minutes, seconds)}</font></h4>
-            <h4>Best Time: <font color="green" size="3">{bestTime}</font></h4>
+            <h4>Best Time: <font color="green" size="3">{showBestTimeString()}</font></h4>
         </header>
     )
 }
