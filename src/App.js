@@ -1,8 +1,8 @@
 import { nanoid } from "nanoid"
 import React from "react"
 import Die from "./components/Die"
-import Confetti from 'react-confetti'
 import Header from "./components/Header"
+import Confetti from 'react-confetti'
 
 
 
@@ -71,7 +71,7 @@ export default function App() {
 
     return (
         <main>
-            <Header rollCount={rollCount}/>
+            <Header rollCount={rollCount} tenzies={tenzies}/>
             {tenzies && <Confetti/>}
             <h1 className="title">Tenzies</h1>
             <p className="instructions">Roll until all dice are the same. 
