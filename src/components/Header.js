@@ -20,9 +20,26 @@ export default function Header(props) {
 
             const id = setInterval(timer, 1000);
             return () => clearInterval(id);
-    },[seconds, props.tenzies]);
+    },[seconds, props.tenzies, minutes]);
 
     React.useEffect(() => {
+        function calculateBestTime() {
+            if(bestTime==="Not Recorded Yet"){
+                setBestTime([minutes,seconds])
+                return
+            }
+    
+            if (bestTime[0] > minutes) {
+                setBestTime([minutes,seconds])
+                return
+            }
+            else if (bestTime[0] === minutes) {
+                if (bestTime[1] >= seconds) {
+                    setBestTime([minutes,seconds])
+                }
+            }
+        }
+
         if (props.tenzies === true) {
             calculateBestTime()
         }else{
@@ -45,23 +62,6 @@ export default function Header(props) {
             showSeconds = "0" + showSeconds
         }
         return showMinutes + " : " + showSeconds
-    }
-
-    function calculateBestTime() {
-        if(bestTime==="Not Recorded Yet"){
-            setBestTime([minutes,seconds])
-            return
-        }
-
-        if (bestTime[0] > minutes) {
-            setBestTime([minutes,seconds])
-            return
-        }
-        else if (bestTime[0] === minutes) {
-            if (bestTime[1] >= seconds) {
-                setBestTime([minutes,seconds])
-            }
-        }
     }
 
     function showBestTimeString() {
