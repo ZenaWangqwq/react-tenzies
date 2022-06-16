@@ -48,6 +48,7 @@ export default function App() {
 
     function newGame() {
         setDiceArray(allNewDice())
+        setRollCount(0)
         setTenzies(false)
     }
 

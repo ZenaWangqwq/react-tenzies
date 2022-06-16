@@ -24,9 +24,11 @@ header {
     display: flex;
     flex-direction: row;
     align-items: baseline;
-    gap: 20px;
+    justify-content: center;
+    gap: 15px;
     margin-top: -20px;
     margin-bottom: -80px;
+    font-size: smaller;
 }
 
 .title {
