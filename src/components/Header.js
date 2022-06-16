@@ -20,7 +20,7 @@ export default function Header(props) {
 
             const id = setInterval(timer, 1000);
             return () => clearInterval(id);
-    },[seconds, props.tenzies, minutes]);
+    },[seconds, props.tenzies]);
 
     React.useEffect(() => {
         function calculateBestTime() {
@@ -39,7 +39,7 @@ export default function Header(props) {
                 }
             }
         }
-
+        
         if (props.tenzies === true) {
             calculateBestTime()
         }else{
