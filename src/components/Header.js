@@ -50,7 +50,6 @@ export default function Header(props) {
     function calculateBestTime() {
         if(bestTime==="Not Recorded Yet"){
             setBestTime([minutes,seconds])
-            console.log("test")
             return
         }
 

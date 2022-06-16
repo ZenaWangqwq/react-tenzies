@@ -8,7 +8,7 @@ export default function Die(props) {
     const dotElements = []
 
     for (let i = 0; i < props.value; i++){
-        dotElements.push(<span className="dots" />)
+        dotElements.push(<span className="dots" key={i} />)
     }
 
     return (
